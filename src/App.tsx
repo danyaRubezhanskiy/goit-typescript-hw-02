@@ -9,25 +9,39 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 
 function App() {
-  const [images, setImages] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setLoading] = useState();
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [largeImageUrl, setLargeImageUrl] = useState(null);
+  type Image = {
+    smallUrl: string;
+    largeUrl: string;
+  };
+
+  const [images, setImages] = useState<Image[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState<boolean>();
+  const [page, setPage] = useState<number>(1);
+  const [query, setQuery] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [largeImageUrl, setLargeImageUrl] = useState<string | null>(null);
 
   const notify = () => toast.error("Please enter your search query");
 
+  interface ApiResponse {
+    results: {
+      urls: {
+        smallUrl: string;
+        largeUrl: string;
+      };
+    }[];
+  }
+
   useEffect(() => {
     if (!query) return;
-    const fetchPhotos = async (query, page) => {
+    const fetchPhotos = async (query: string, page: number): Promise<void> => {
       setLoading(true);
       try {
-        const { data } = await axios.get(
+        const { data } = await axios.get<ApiResponse>(
           `https://api.unsplash.com/search/photos?query=${query}&per_page=${12}}&page=${page}&client_id=ta_gU_VpEth5AI66-U4EWKQ4xudh-a8yAmiRRXyuWM0`
         );
-        const imagesData = data.results.map((result) => ({
+        const imagesData: Image[] = data.results.map((result) => ({
           smallUrl: result.urls.small,
           largeUrl: result.urls.full,
         }));

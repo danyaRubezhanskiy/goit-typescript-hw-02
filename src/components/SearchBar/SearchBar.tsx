@@ -2,12 +2,15 @@ import css from "./SearchBar.module.css";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 
 type FormValue = {
-  query: string
-}
+  query: string;
+};
 
 type Props = {
-  onSubmit: (values:FormValue,actionactions: FormikHelpers<FormValue>:)
-}
+  onSubmit: (
+    values: FormValue,
+    actionactions: FormikHelpers<FormValue>
+  ) => void;
+};
 
 const SearchBar = ({ onSubmit }: Props) => {
   return (
