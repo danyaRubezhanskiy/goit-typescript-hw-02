@@ -1,6 +1,12 @@
 import css from "./ImageCard.module.css";
 
-const ImageCard = ({ smallUrl, largeUrl, onImageClick }) => {
+type Props = {
+  smallUrl: string;
+  largeUrl: string;
+  onImageClick: (largeUrl: string) => void;
+};
+
+const ImageCard = ({ smallUrl, largeUrl, onImageClick }: Props) => {
   const handleClick = () => {
     onImageClick(largeUrl);
   };

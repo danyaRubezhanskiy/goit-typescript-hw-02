@@ -3,7 +3,13 @@ import css from "./ImageModal.module.css";
 
 Modal.setAppElement("#root");
 
-const ImageModal = ({ isOpen, onRequestClose, largeImageUrl }) => {
+type Props = {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  largeImageUrl: string;
+};
+
+const ImageModal = ({ isOpen, onRequestClose, largeImageUrl }: Props) => {
   return (
     <Modal
       isOpen={isOpen}

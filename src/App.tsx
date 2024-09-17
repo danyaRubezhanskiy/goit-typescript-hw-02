@@ -28,8 +28,8 @@ function App() {
           `https://api.unsplash.com/search/photos?query=${query}&per_page=${12}}&page=${page}&client_id=ta_gU_VpEth5AI66-U4EWKQ4xudh-a8yAmiRRXyuWM0`
         );
         const imagesData = data.results.map((result) => ({
-          smallUrl: result.urls.small, // маленькое изображение для галереи
-          largeUrl: result.urls.full, // большое изображение для модального окна
+          smallUrl: result.urls.small,
+          largeUrl: result.urls.full,
         }));
 
         if (page === 1) {
