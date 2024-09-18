@@ -6,10 +6,7 @@ type FormValue = {
 };
 
 type Props = {
-  onSubmit: (
-    values: FormValue,
-    actionactions: FormikHelpers<FormValue>
-  ) => void;
+  onSubmit: (values: FormValue, actions: FormikHelpers<FormValue>) => void;
 };
 
 const SearchBar = ({ onSubmit }: Props) => {

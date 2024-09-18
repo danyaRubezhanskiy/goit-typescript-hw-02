@@ -7,6 +7,7 @@ import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
+import { FormikHelpers } from "formik";
 
 function App() {
   type Image = {
@@ -27,8 +28,8 @@ function App() {
   interface ApiResponse {
     results: {
       urls: {
-        smallUrl: string;
-        largeUrl: string;
+        small: string;
+        full: string;
       };
     }[];
   }
@@ -39,7 +40,7 @@ function App() {
       setLoading(true);
       try {
         const { data } = await axios.get<ApiResponse>(
-          `https://api.unsplash.com/search/photos?query=${query}&per_page=${12}}&page=${page}&client_id=ta_gU_VpEth5AI66-U4EWKQ4xudh-a8yAmiRRXyuWM0`
+          `https://api.unsplash.com/search/photos?query=${query}&per_page=${12}&page=${page}&client_id=ta_gU_VpEth5AI66-U4EWKQ4xudh-a8yAmiRRXyuWM0`
         );
         const imagesData: Image[] = data.results.map((result) => ({
           smallUrl: result.urls.small,
@@ -61,7 +62,14 @@ function App() {
     fetchPhotos(query, page);
   }, [page, query]);
 
-  const onSubmit = (values, actions) => {
+  type FormValue = {
+    query: string;
+  };
+
+  const onSubmit = (
+    values: FormValue,
+    actions: FormikHelpers<FormValue>
+  ): void => {
     if (values.query.trim() === "") {
       notify();
     } else {
@@ -72,18 +80,18 @@ function App() {
     actions.resetForm();
   };
 
-  const loadMore = () => {
+  const loadMore = (): void => {
     const newPage = page + 1;
     setQuery(query);
     setPage(newPage);
   };
 
-  const openModal = (imageUrl) => {
+  const openModal = (imageUrl: string): void => {
     setLargeImageUrl(imageUrl);
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setIsModalOpen(false);
     setLargeImageUrl(null);
   };
